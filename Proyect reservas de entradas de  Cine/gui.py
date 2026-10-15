@@ -46,12 +46,13 @@ class CineAppGUI:
         self.txt_telefono = ttk.Entry(f, width=35)
         self.txt_telefono.grid(row=1, column=1, pady=8, padx=10)
 
-        tk.Label(f, text="Seleccionar Película:", bg="white", font=("Arial", 10, "bold")).grid(row=2, column=0, sticky="w", pady=8)
+        tk.Label(f, text="Seleccionar Función:", bg="white", font=("Arial", 10, "bold")).grid(row=2, column=0, sticky="w", pady=8)
         
         self.combo_fun = ttk.Combobox(
             f,
             values=[f"{fx.obtener_id_funcion()} - {fx.obtener_pelicula()} | {fx.obtener_sala_tipo()} | {fx.obtener_horario()}" for fx in self.manager.funciones],
             width=55,
+            state="readonly",
         )
         self.combo_fun.grid(row=2, column=1, pady=8, padx=10)
         if self.manager.funciones:
@@ -98,7 +99,6 @@ class CineAppGUI:
             self.cargar_tabla()
 
         except ValueError as e:
-            # ¡Aquí está la parte que generaba el error si le faltaban espacios!
             messagebox.showerror("Error de Validación", str(e))
 
     def crear_pestana_cancelaciones(self):
@@ -106,7 +106,7 @@ class CineAppGUI:
         f.pack(fill="both", expand=True)
 
         tk.Label(f, text="Selecciona la Reserva a Cancelar:", bg="white", font=("Arial", 10, "bold")).pack(anchor="w", pady=10)
-        self.combo_reservas = ttk.Combobox(f, width=70)
+        self.combo_reservas = ttk.Combobox(f, width=70, state="readonly")
         self.combo_reservas.pack(anchor="w", pady=10)
         self.actualizar_combos()
 
@@ -142,7 +142,6 @@ class CineAppGUI:
             self.cargar_tabla()
 
         except ValueError as e:
-            # ¡Y aquí también! Asegúrate de que esta línea exista y tenga espacios
             messagebox.showerror("Error", str(e))
 
     def crear_pestana_consultas(self):
