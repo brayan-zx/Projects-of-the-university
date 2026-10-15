@@ -1,6 +1,6 @@
-# ==========================================
+
 # 3 CLASES DEL DOMINIO (ENCAPSULADAS TRADICIONAL)
-# ==========================================
+
 
 class Funcion:
     def __init__(self, id_funcion, pelicula, sala_tipo, horario, capacidad=170):
@@ -48,13 +48,9 @@ class Funcion:
         }
 
 class Cliente:
-    def __init__(self, id_cliente, nombre, telefono):
-        self.__id_cliente = id_cliente
+    def __init__(self, nombre, telefono):
         self.__nombre = nombre
         self.__telefono = telefono
-
-    def obtener_id_cliente(self):
-        return self.__id_cliente
 
     def obtener_nombre(self):
         return self.__nombre
@@ -64,11 +60,9 @@ class Cliente:
 
     def to_dict(self):
         return {
-            "id_cliente": self.__id_cliente,
             "nombre": self.__nombre,
             "telefono": self.__telefono,
         }
-
 class Compra:
     def __init__(self, id_compra, cliente_nombre, cliente_telefono, id_funcion, cantidad_asientos, estado="ACTIVA"):
         self.__id_compra = id_compra
