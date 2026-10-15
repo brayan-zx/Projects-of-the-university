@@ -8,7 +8,7 @@ def main():
     print("1. Interfaz Gráfica (Ventanas y Botones)")
     print("2. Consola de Texto (Terminal)")
     
-    opcion = input("Ingresa 1 o 2: ")
+    opcion = input("Ingresa 1 o 2: ").strip()
     
     if opcion == "1":
         # Iniciar modo Gráfico
