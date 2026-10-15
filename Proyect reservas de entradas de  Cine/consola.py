@@ -28,7 +28,7 @@ def iniciar_consola():
         limpiar_pantalla()
 
         if opcion == "1":
-            print("--- 🎫 REGISTRAR RESERVA ---")
+            print("--- REGISTRAR RESERVA ---")
             
             # 1. Ciclo infinito para el Nombre
             while True:
@@ -40,7 +40,7 @@ def iniciar_consola():
                         raise ValueError("Nombre inválido. Solo debe contener letras.")
                     break # Si pasa las validaciones, rompe el ciclo y sigue al teléfono
                 except ValueError as e:
-                    print(f"❌ Error: {e} ¡Intenta nuevamente!\n")
+                    print(f" Error: {e} ¡Intenta nuevamente!\n")
 
             # 2. Ciclo infinito para el Teléfono
             while True:
@@ -52,21 +52,23 @@ def iniciar_consola():
                         raise ValueError("Teléfono inválido. Solo puede contener números.")
                     break # Si pasa las validaciones, rompe el ciclo
                 except ValueError as e:
-                    print(f"❌ Error: {e} ¡Intenta nuevamente!\n")
+                    print(f" Error: {e} ¡Intenta nuevamente!\n")
             
-            # Mostrar películas
-            print("\nPelículas Disponibles:")
+            # Mostrar funciones
+            print("\nFunciones disponibles:")
             for f in manager.funciones:
                 print(f"[{f.obtener_id_funcion()}] {f.obtener_pelicula()} | {f.obtener_sala_tipo()} | {f.obtener_horario()}")
             
-            # 3. Ciclo infinito para el ID de la película
+            # 3. Ciclo infinito para el ID de la función
             while True:
                 try:
-                    id_fun = input("\nDigita el ID de la película (ej. F1, F2): ").upper().strip()
-                    funcion_existe = any(f.obtener_id_funcion() == id_fun for f in manager.funciones)
-                    if not funcion_existe:
+                    id_fun = input("\nDigita el ID de la función (ej. F1, F2): ").upper().strip()
+                    funcion_elegida = next((f for f in manager.funciones if f.obtener_id_funcion() == id_fun), None)
+                    if not funcion_elegida:
                         raise ValueError(f"La función con ID '{id_fun}' no existe en el catálogo.")
-                    break # Si el ID existe, avanza
+                    if len(funcion_elegida.obtener_asientos_vendidos()) >= funcion_elegida.obtener_capacidad():
+                        raise ValueError(f"La función {id_fun} está llena (Sala LLENA). Elige otra.")
+                    break # Si el ID existe y tiene cupo, avanza
                 except ValueError as e:
                     print(f"❌ Error: {e} ¡Intenta nuevamente!")
 
@@ -83,18 +85,18 @@ def iniciar_consola():
                     msg = manager.registrar_compra(nombre, telefono, id_fun, cant)
                     
                     limpiar_pantalla()
-                    print(f"✅ {msg}")
+                    print(f" {msg}")
                     break # Si el gestor dice que todo está perfecto, rompe el ciclo y termina
                     
                 except ValueError as e:
                     # Si el gestor detecta que no hay sillas, lo atrapamos aquí y le volvemos a preguntar
-                    print(f"❌ Error del sistema: {e} ¡Intenta nuevamente con otra cantidad!")
+                    print(f"Error: {e} ¡Intenta nuevamente con otra cantidad!")
                 
             input("\nPresiona Enter para continuar...")
             limpiar_pantalla()
 
         elif opcion == "2":
-            print("--- ❌ CANCELAR RESERVA ---")
+            print("--- CANCELAR RESERVA ---")
             activas = [c for c in manager.compras if c.obtener_estado() == "ACTIVA"]
             
             if not activas:
@@ -123,17 +125,17 @@ def iniciar_consola():
             if confirmacion == 's':
                 try:
                     msg = manager.cancelar_compra(id_r)
-                    print(f"✅ {msg}")
+                    print(f" {msg}")
                 except ValueError as e:
-                    print(f"❌ Error: {e}")
+                    print(f" Error: {e}")
             else:
-                print("⚠️ Operación cancelada. La reserva se conserva intacta.")
+                print(" !!Operación cancelada. La reserva se conserva intacta.")
                 
             input("\nPresiona Enter para continuar...")
             limpiar_pantalla()
 
         elif opcion == "3":
-            print("--- 📊 LISTADO DE RESERVAS ---")
+            print("---  LISTADO DE RESERVAS ---")
             if not manager.compras:
                 print("Todavía no hay reservas registradas.")
             else:
@@ -151,7 +153,7 @@ def iniciar_consola():
             break
             
         else:
-            print("❌ Opción inválida. Por favor, selecciona un número del menú.")
+            print(" Opción inválida. Por favor, selecciona un número del menú.")
             input("\nPresiona Enter para continuar...")
             limpiar_pantalla()
 
